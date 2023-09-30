@@ -1,29 +1,35 @@
-import { ContactForm } from '../Form/Form';
-import { Application, FormTitle } from './App.styled';
 import { Route, Routes } from 'react-router-dom';
-import { ContactList } from '../ContactList/ContactList';
-import { Filter } from '../Filter/Filter';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchContacts } from 'redux/operations';
+import { useEffect, lazy } from 'react';
 import { Layout } from 'components/Layout';
-import HomePage from 'pages/HomePage/HomePage';
 import { RestrictedRoute } from 'components/RestrictedRoute';
-import SignInPage from 'pages/SignInPage/SignInPage';
+import { refreshUser } from 'redux/auth/operations';
+import { useAuth } from 'hooks/useAuth';
+import { PrivateRoute } from 'components/PrivateRoute';
+
+const HomePage = lazy(() => import('../../pages/HomePage/HomePage.js'));
+const SignInPage = lazy(() => import('../../pages/SignInPage/SignInPage'));
+const LogInPage = lazy(() => import('../../pages/LogInPage/LogInPage.js'));
+const ContactsPage = lazy(() =>
+  import('../../pages/ContactsPage/ContactsPage.js')
+);
 
 export const App = () => {
   const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  return (
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route
-          path="/SignInPage"
+          path="/register"
           element={
             <RestrictedRoute
               redirectTo="/contacts"
@@ -31,16 +37,19 @@ export const App = () => {
             />
           }
         />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/contacts" component={<LogInPage />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+          }
+        />
       </Route>
     </Routes>
-
-    // <Application>
-    //   <FormTitle>Phonebook</FormTitle>
-    //   <ContactForm></ContactForm>
-    //   <hr />
-    //   <FormTitle>Contacts</FormTitle>
-    //   <Filter />
-    //   <ContactList />
-    // </Application>
   );
 };

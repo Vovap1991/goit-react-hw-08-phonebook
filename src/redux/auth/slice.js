@@ -19,6 +19,20 @@ const handleLogOutFulfilled = state => {
   state.isLoggedIn = false;
 };
 
+const handleRefreshPending = state => {
+  state.isRefreshing = true;
+};
+
+const handleRefreshFulfilled = (state, action) => {
+  state.user = action.payload;
+  state.isLoggedIn = true;
+  state.isRefreshing = false;
+};
+
+const handleRefreshRejected = state => {
+  state.isRefreshing = false;
+};
+
 const initialState = {
   user: { name: null, email: null },
   token: null,
@@ -33,20 +47,11 @@ const authSlice = createSlice({
     builder
       .addCase(register.fulfilled, handleRegisterFulfilled)
       .addCase(logIn.fulfilled, handleLogInFulfilled)
-      .addCase(logOut.fulfilled, handleLogOutFulfilled);
+      .addCase(logOut.fulfilled, handleLogOutFulfilled)
+      .addCase(refreshUser.pending, handleRefreshPending)
+      .addCase(refreshUser.fulfilled, handleRefreshFulfilled)
+      .addCase(refreshUser.rejected, handleRefreshRejected);
   },
 });
-
-// [refreshUser.pending](state) {
-//   state.isRefreshing = true;
-// },
-// [refreshUser.fulfilled](state, action) {
-//   state.user = action.payload;
-//   state.isLoggedIn = true;
-//   state.isRefreshing = false;
-// },
-// [refreshUser.rejected](state) {
-//   state.isRefreshing = false;
-// },
 
 export const authReducer = authSlice.reducer;
