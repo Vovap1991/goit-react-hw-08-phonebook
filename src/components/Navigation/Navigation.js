@@ -1,5 +1,4 @@
 import { useAuth } from 'hooks/useAuth';
-import { NavLink } from 'react-router-dom';
 import { HomePageLink, ContactsLink } from './Navigation.styled';
 
 export const Navigation = () => {

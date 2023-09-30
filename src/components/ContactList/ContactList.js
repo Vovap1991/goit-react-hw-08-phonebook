@@ -6,7 +6,7 @@ import {
   NoContactsMessage,
 } from './ContactList.styled';
 import { deleteContact } from '../../redux/operations';
-import { selectVisibleContacts } from '../../redux/selectors';
+import { selectVisibleContacts } from 'redux/selectors';
 
 export const ContactList = () => {
   const contacts = useSelector(selectVisibleContacts);

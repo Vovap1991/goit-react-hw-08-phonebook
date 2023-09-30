@@ -4,17 +4,22 @@ import { Field, Form, ErrorMessage } from 'formik';
 export const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
 `;
 
 export const FormLabel = styled.label`
   font-size: 25px;
   margin-bottom: 10px;
+  font-weight: 500;
 `;
 
 export const FormInput = styled(Field)`
   padding: 10px;
   outline: none;
-  width: 100%;
+  width: 75%;
   height: 20px;
   border: 1px solid #5ac5e8;
   font-size: 20px;
@@ -33,12 +38,12 @@ export const FormButton = styled.button`
   margin-left: auto;
   cursor: pointer;
   outline: none;
-  width: 70%;
-  height: 30px;
+  width: 150px;
+  height: 40px;
   border: 1px solid #5ac5e8;
-  font-size: 15px;
+  font-size: 20px;
   border-radius: 10px;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-bottom: 10px;
   background-color: white;
   transition: background-color 300ms linear, color 300ms linear;

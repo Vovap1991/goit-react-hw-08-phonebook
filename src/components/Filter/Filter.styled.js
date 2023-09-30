@@ -8,7 +8,7 @@ export const FilterWrapper = styled.div`
 
 export const FilterLabel = styled.label`
   font-size: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 `;
 
 export const FilterInput = styled.input`
