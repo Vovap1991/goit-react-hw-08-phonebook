@@ -7,6 +7,18 @@ const handleRegisterFulfilled = (state, action) => {
   state.isLoggedIn = true;
 };
 
+const handleLogInFulfilled = (state, action) => {
+  state.user = action.payload.user;
+  state.token = action.payload.token;
+  state.isLoggedIn = true;
+};
+
+const handleLogOutFulfilled = state => {
+  state.user = { name: null, email: null };
+  state.token = null;
+  state.isLoggedIn = false;
+};
+
 const initialState = {
   user: { name: null, email: null },
   token: null,
@@ -18,19 +30,13 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   extraReducers: builder => {
-    builder.addCase(register.fulfilled, handleRegisterFulfilled);
+    builder
+      .addCase(register.fulfilled, handleRegisterFulfilled)
+      .addCase(logIn.fulfilled, handleLogInFulfilled)
+      .addCase(logOut.fulfilled, handleLogOutFulfilled);
   },
 });
-// [logIn.fulfilled](state, action) {
-//   state.user = action.payload.user;
-//   state.token = action.payload.token;
-//   state.isLoggedIn = true;
-// },
-// [logOut.fulfilled](state) {
-//   state.user = { name: null, email: null };
-//   state.token = null;
-//   state.isLoggedIn = false;
-// },
+
 // [refreshUser.pending](state) {
 //   state.isRefreshing = true;
 // },
