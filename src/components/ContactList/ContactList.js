@@ -5,12 +5,16 @@ import {
   List,
   NoContactsMessage,
 } from './ContactList.styled';
-import { deleteContact } from '../../redux/operations';
+import { deleteContact, fetchContacts } from '../../redux/operations';
 import { selectVisibleContacts } from 'redux/selectors';
+import { useEffect } from 'react';
 
 export const ContactList = () => {
   const contacts = useSelector(selectVisibleContacts);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   if (contacts.length === 0) {
     return (
